@@ -108,14 +108,14 @@ class _LoginPageState extends State<LoginPage> {
                     return null;
                   },
                 ),
-                if (isLogin) 
+                if (!isLogin) 
                 const SizedBox(height: 16),
-                if (isLogin) 
+                if (!isLogin) 
                 TextFormField(
                     controller: _checkPasswordController,
                     obscureText: true,
                     decoration: const InputDecoration(
-                      labelText: 'ConfirmPassword',
+                      labelText: 'Confirm Password',
                       labelStyle: TextStyle(color: Colors.black),
                       filled: true,
                       fillColor: Colors.white, // Изменено
