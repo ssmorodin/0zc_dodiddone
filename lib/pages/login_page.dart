@@ -1,15 +1,30 @@
 import 'package:flutter/material.dart';
-import '../theme/theme.dart';
+import 'package:zc_dodiddone/theme/theme.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
+
 class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   bool isLogin = true; // Флаг для определения режима (вход/регистрация)
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final primaryColor = DoDidDoneTheme.lightTheme.primaryColor;
+    final secondaryColor = DoDidDoneTheme.lightTheme.colorScheme.secondary;
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -18,160 +33,121 @@ class _LoginPageState extends State<LoginPage> {
             end: Alignment.bottomCenter,
             colors: isLogin
                 ? [
-                    DoDidDoneTheme.lightTheme.colorScheme.secondary,
-                    DoDidDoneTheme.lightTheme.colorScheme.primary,
+                    secondaryColor,
+                    primaryColor,
                   ]
                 : [
-                    DoDidDoneTheme.lightTheme.colorScheme.primary,
-                    DoDidDoneTheme.lightTheme.colorScheme.secondary,
+                    primaryColor,
+                    secondaryColor,
                   ],
             stops: const [0.1, 0.9], // Основной цвет занимает 90%
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/0qode_symbol_1.png', // Замените на правильный путь к файлу
-                    height: 60, // Устанавливаем высоту изображения
-                  ),
-                  const SizedBox(width: 8),
-                  // Добавляем текст "zerocoder"
-                  Text(
-                    'zerocoder',
-                    style: TextStyle(
-                      fontSize: 62,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white, // Белый цвет текста
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 30),
-              // Добавляем текст "Do"
-              RichText(
-                text: TextSpan(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  isLogin ? 'Вход' : 'Регистрация',
                   style: const TextStyle(
-                    fontSize: 48,
+                    fontSize: 32,
                     fontWeight: FontWeight.bold,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: 'Do',
-                      style: TextStyle(
-                        color: DoDidDoneTheme.lightTheme.colorScheme.primary,
-                      ),
-                    ),
-                    const TextSpan(
-                      text: 'Did',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    TextSpan(
-                      text: 'Done',
-                      style: TextStyle(
-                        color: DoDidDoneTheme.lightTheme.colorScheme.secondary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 30),
-              // Заголовок
-              Text(
-                isLogin ? 'Вход' : 'Регистрация',
-                style: const TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(height: 30),
-              // Поле логина/почты
-              const TextField(
-                decoration: InputDecoration(
-                  hintText: 'Почта',
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              // Поле пароля
-              const TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: 'Пароль',
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              // **Новое поле "Повторить пароль"**
-              if (!isLogin) // Отображаем только при регистрации
-                const TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintText: 'Повторить пароль',
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-              const SizedBox(height: 30),
-              // Кнопка "Войти"
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginPage()));
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: !isLogin
-                      ? DoDidDoneTheme.lightTheme.colorScheme.primary
-                      : DoDidDoneTheme.lightTheme.colorScheme.secondary,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                  textStyle: const TextStyle(fontSize: 18),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                child: Text(isLogin ? 'Войти' : 'Зарегистрироваться'),
-              ),
-              const SizedBox(height: 20),
-              // Кнопка перехода на другую страницу
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    isLogin = !isLogin;
-                  });
-                },
-                child: Text(
-                  isLogin
-                      ? 'У меня ещё нет аккаунта...'
-                      : 'Уже есть аккаунт...',
-                  style: const TextStyle(
                     color: Colors.white,
                   ),
                 ),
-              ),
-            ],
+                TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: 'E-mail',
+                    labelStyle: const TextStyle(color: Colors.white),
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.1), // Изменено
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Пожалуйста, введите email';
+                    }
+                    if (!value.contains('@')) {
+                      return 'Неверный формат email';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    labelStyle: TextStyle(color: Colors.white),
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.1), // Изменено
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Пожалуйста, введите пароль';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 32),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      // Обработка входа/регистрации
+                      // ...
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: isLogin ? secondaryColor : primaryColor,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    textStyle: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: Text(isLogin ? 'Войти' : 'Зарегистрироваться'),
+                ),
+                const SizedBox(height: 16),
+                TextButton(
+                  onPressed: () {
+                    // Переход на другой фрейм
+                    setState(() {
+                      isLogin = !isLogin;
+                    });
+                  },
+                  style: TextButton.styleFrom(
+                    textStyle: const TextStyle(
+                      color: Colors.white, // Изменено
+                      fontSize: 16,
+                    ),
+                  ),
+                  child: Text(isLogin
+                      ? 'Еще нет аккаунта...'
+                      : 'Уже есть аккаунт...',
+                      style: const TextStyle(
+                        color: Colors.white, // Изменено
+                      ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
