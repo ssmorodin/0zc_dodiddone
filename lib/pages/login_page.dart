@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zc_dodiddone/pages/main_page.dart';
 import 'package:zc_dodiddone/theme/theme.dart';
 
 class LoginPage extends StatefulWidget {
@@ -133,11 +134,12 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 32),
                 ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
+                  onPressed: () {        
+                    // if (_formKey.currentState!.validate()) {
                       // Обработка входа/регистрации
-                      // ...
-                    }
+                      Navigator.pushReplacement(context, 
+                          MaterialPageRoute(builder: (context) => const MainPage()));  
+                    // }
                   },
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
