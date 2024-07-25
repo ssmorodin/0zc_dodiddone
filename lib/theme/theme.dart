@@ -9,5 +9,6 @@ class DoDidDoneTheme {
       secondary: const Color(0xFF4ceb8b),  // Secondary color
     ),
     useMaterial3: true,
-  );
+  )
+  ;
 }

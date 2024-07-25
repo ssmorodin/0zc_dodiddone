@@ -8,15 +8,18 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool isLogin = true; // Флаг для определения режима (вход/регистрация)
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool isLogin = true; // Флаг для определения режима (вход/регистрация)
+  final _checkPasswordController = TextEditingController();
+    
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _checkPasswordController.dispose();
     super.dispose();
   }
 
@@ -24,7 +27,6 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final primaryColor = DoDidDoneTheme.lightTheme.primaryColor;
     final secondaryColor = DoDidDoneTheme.lightTheme.colorScheme.secondary;
-
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -51,21 +53,25 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
+                Center( // Добавлено Center
+                  child: Text(
                   isLogin ? 'Вход' : 'Регистрация',
                   style: const TextStyle(
+                    
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
+                    ),
                   ),
                 ),
+                const SizedBox(height: 16),
                 TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(
                     labelText: 'E-mail',
-                    labelStyle: const TextStyle(color: Colors.white),
+                    labelStyle: TextStyle(color: Colors.black),
                     filled: true,
-                    fillColor: Colors.white.withOpacity(0.1), // Изменено
+                    fillColor: Colors.white, // Изменено
                     border: const OutlineInputBorder(
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -87,9 +93,9 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Password',
-                    labelStyle: TextStyle(color: Colors.white),
+                    labelStyle: TextStyle(color: Colors.black),
                     filled: true,
-                    fillColor: Colors.white.withOpacity(0.1), // Изменено
+                    fillColor: Colors.white, // Изменено
                     border: const OutlineInputBorder(
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -102,6 +108,29 @@ class _LoginPageState extends State<LoginPage> {
                     return null;
                   },
                 ),
+                if (isLogin) 
+                const SizedBox(height: 16),
+                if (isLogin) 
+                TextFormField(
+                    controller: _checkPasswordController,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      labelText: 'ConfirmPassword',
+                      labelStyle: TextStyle(color: Colors.black),
+                      filled: true,
+                      fillColor: Colors.white, // Изменено
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Пожалуйста, введите пароль';
+                      }
+                      return null;
+                    },
+                ),
                 const SizedBox(height: 32),
                 ElevatedButton(
                   onPressed: () {
@@ -111,8 +140,8 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: isLogin ? secondaryColor : primaryColor,
+                    foregroundColor: Colors.white,
+                    backgroundColor: isLogin ? secondaryColor : primaryColor,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     textStyle: TextStyle(
                       fontSize: 18,
