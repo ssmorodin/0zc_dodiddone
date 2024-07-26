@@ -19,7 +19,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return Padding(
             padding: const EdgeInsets.all(20.0),
-             child: Expanded(
+             child: Center(
                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,

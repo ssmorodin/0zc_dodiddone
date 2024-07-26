@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zc_dodiddone/screens/all_tasks.dart';
 import 'package:zc_dodiddone/screens/profile.dart'; // Импортируем profile_page
 
 class MainPage extends StatefulWidget {
@@ -12,7 +13,7 @@ class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    Text('Задачи'),
+    TasksPage(),
     Text('Сегодня'),
     Text('Выполнено'),
   ];
@@ -29,13 +30,13 @@ class _MainPageState extends State<MainPage> {
     final secondaryColor = Theme.of(context).colorScheme.secondary;
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent, // Прозрачный фон AppBar
-        elevation: 0, // Убираем тень
-        title: const Text('DoDidDone'),
-        centerTitle: true,
-      ),
+      // extendBodyBehindAppBar: true,
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent, // Прозрачный фон AppBar
+      //   elevation: 0, // Убираем тень
+      //   title: const Text('DoDidDone'),
+      //   centerTitle: true,
+      // ),
       body: Expanded(
       child: Container(
         decoration: BoxDecoration(
