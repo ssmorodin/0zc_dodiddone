@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zc_dodiddone/screens/profile.dart'; // Импортируем profile_page
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -13,7 +14,6 @@ class _MainPageState extends State<MainPage> {
   static const List<Widget> _widgetOptions = <Widget>[
     Text('Задачи'),
     Text('Сегодня'),
-    Text('Профиль'),
     Text('Выполнено'),
   ];
 
@@ -36,20 +36,34 @@ class _MainPageState extends State<MainPage> {
         title: const Text('DoDidDone'),
         centerTitle: true,
       ),
-      body: Container(
+      body: Expanded(
+      child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomCenter,
             colors: [
-              primaryColor,
               secondaryColor,
+              primaryColor,              
             ],
             stops: const [0.1, 0.9], // Основной цвет занимает 90%
           ),
         ),
         child: Center(
-          child: _widgetOptions.elementAt(_selectedIndex),
+        child: IndexedStack(
+                      index: _selectedIndex,
+                      children: [
+                        // Задачи
+                        _widgetOptions.elementAt(0),
+                        // Сегодня
+                        _widgetOptions.elementAt(1),
+                        // Выполнено
+                        _widgetOptions.elementAt(2),
+                        // Профиль
+                        ProfilePage(), // Отображаем profile_page при выборе "Профиль"
+                      ],
+                    ),
+         ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -63,12 +77,12 @@ class _MainPageState extends State<MainPage> {
             label: 'Сегодня',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Профиль',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.check_circle),
             label: 'Выполнено',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Профиль',
           ),
         ],
         currentIndex: _selectedIndex,
