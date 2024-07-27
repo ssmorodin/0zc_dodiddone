@@ -10,7 +10,7 @@ class TasksPage extends StatefulWidget {
 class _TasksPageState extends State<TasksPage> {
   final List<String> _tasks = [
     'Купить продукты',
-    'Записаться на прием к врачу',
+    'Записаться на прием к врачу\nЗаписаться на прием к врачу!\nЗаписаться на прием к врачу!!!',
     'Позвонить маме',
     'Сделать уборку',
     'Прочитать книгу',

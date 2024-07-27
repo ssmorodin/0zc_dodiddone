@@ -13,5 +13,6 @@ class DoDidDoneTheme {
       selectedItemColor: Color.fromARGB(255, 88, 57, 161), // Основной цвет
       unselectedItemColor: const Color(0xFF555555), // Серый цвет для неактивных иконок
     ),
+    cardColor: Colors.white,
   );
 }
