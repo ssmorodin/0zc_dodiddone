@@ -54,18 +54,62 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Center( // Добавлено Center
-                  child: Text(
-                  isLogin ? 'Вход' : 'Регистрация',
-                  style: const TextStyle(
-                    
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                 Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/logo.png', // Замените на правильный путь к файлу
+                    height: 60, // Устанавливаем высоту изображения
+                  ),
+                  const SizedBox(width: 8),
+                  // Добавляем текст "zerocoder"
+                  const Text(
+                    'zerocoder',
+                    style: TextStyle(
+                      fontSize: 62,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white, // Белый цвет текста
                     ),
                   ),
+                ],
+              ),
+              const SizedBox(height: 30),
+                Center( // Добавлено Center
+                  child: RichText(
+                    text: TextSpan(
+                      style: const TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: 'Do',
+                          style: TextStyle(color: primaryColor),
+                        ),
+                        const TextSpan(
+                          text: 'Did',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        TextSpan(
+                          text: 'Done',
+                          style: TextStyle(color: secondaryColor),
+                        ),
+                      ],
+                    ),
+                  ),                
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 50),
+                Center(
+                  child: Text(
+                      isLogin ? 'Вход' : 'Регистрация',
+                      style: TextStyle(
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white, // Белый цвет текста
+                      ),
+                    ),
+                ),
+                 const SizedBox(height: 16), 
                 TextFormField(
                   controller: _emailController,
                   decoration: const InputDecoration(
