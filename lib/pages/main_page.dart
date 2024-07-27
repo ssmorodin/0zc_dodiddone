@@ -36,101 +36,109 @@ class _MainPageState extends State<MainPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Добавить задачу'),
-          content: Form(
-            key: formKey, // Привязываем форму к GlobalKey
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: Row(
-                    children: [
-                      const Text('Название задачи'),
-                    ],
+        return Dialog(
+          // Используем Dialog вместо AlertDialog для настройки ширины
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16), // Скругленные углы
+          ),
+          child: SizedBox(
+            // Устанавливаем ширину диалогового окна
+            width: MediaQuery.of(context).size.width * 0.9, 
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: SingleChildScrollView( // Добавляем SingleChildScrollView
+                child: AlertDialog(
+                  title: const Text('Добавить задачу'),
+                  content: Form(
+                    key: formKey, // Привязываем форму к GlobalKey
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(height: 8),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Row(
+                            children: [
+                              const Text('Название задачи'),
+                            ],
+                          ),
+                        ),
+                        TextFormField(
+                          // decoration: const InputDecoration(
+                          //   labelText: 'Название задачи',
+                          // ),
+                          // ... (добавьте обработку ввода названия задачи)
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Row(
+                            children: [
+                              const Text('Описание'),
+                            ],
+                          ),
+                        ),
+                        TextFormField(
+                          // decoration: const InputDecoration(
+                          //   labelText: 'Описание',
+                          // ),
+                          // ... (добавьте обработку ввода описания задачи)
+                        ),
+                        // Поле для выбора даты дедлайна
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Row(
+                            children: [
+                              const Text('Дедлайн'),
+                            ],
+                          ),
+                        ),
+                        DateTimeField(
+                          format: DateFormat('dd.MM.yy HH:mm'),
+                          onShowPicker: (context, currentValue) {
+                            return showDatePicker(
+                              context: context,
+                              firstDate: DateTime(1900),
+                              initialDate: currentValue ?? DateTime.now(),
+                              lastDate: DateTime(2100),
+                            ).then((date) {
+                              if (date != null) {
+                                return showTimePicker(
+                                  context: context,
+                                  initialTime: TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
+                                ).then((time) {
+                                  return DateTimeField.combine(date, time);
+                                });
+                              }
+                            });
+                          },
+                          onChanged: (DateTime? date) {
+                            setState(() {
+                              selectedDate = date;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
                   ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(); // Закрыть диалоговое окно
+                      },
+                      child: const Text('Отмена'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        // ... (обработайте ввод данных и добавьте задачу)
+                        Navigator.of(context).pop(); // Закрыть диалоговое окно
+                      },
+                      child: const Text('Добавить'),
+                    ),
+                  ],
                 ),
-                TextFormField(
-                  // decoration: const InputDecoration(
-                  //   labelText: 'Название задачи',
-                  // ),
-                  // ... (добавьте обработку ввода названия задачи)
-                ),
-                 Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: Row(
-                    children: [
-                      const Text('Описание'),
-                    ],
-                  ),
-                ),
-                TextFormField(
-                  // decoration: const InputDecoration(
-                  //   labelText: 'Описание',
-                  // ),
-                  // ... (добавьте обработку ввода описания задачи)
-                ),
-                // Поле для выбора даты дедлайна
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: Row(
-                    children: [
-                      const Text('Дедлайн'),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 0.0),
-                  child: Column(
-                    children: <Widget>[
-                      // const Text('Дедлайн'),
-                      DateTimeField(
-                        format: DateFormat('dd.MM.yy HH:mm'),
-                        onShowPicker: (context, currentValue) {
-                          return showDatePicker(
-                            context: context,
-                            firstDate: DateTime(1900),
-                            initialDate: currentValue ?? DateTime.now(),
-                            lastDate: DateTime(2100),
-                          ).then((date) {
-                            if (date != null) {
-                              return showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
-                              ).then((time) {
-                                return DateTimeField.combine(date, time);
-                              });
-                            }
-                          });
-                        },
-                        onChanged: (DateTime? date) {
-                          setState(() {
-                            selectedDate = date;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Закрыть диалоговое окно
-              },
-              child: const Text('Отмена'),
-            ),
-            TextButton(
-              onPressed: () {
-                // ... (обработайте ввод данных и добавьте задачу)
-                Navigator.of(context).pop(); // Закрыть диалоговое окно
-              },
-              child: const Text('Добавить'),
-            ),
-          ],
         );
       },
     );
@@ -214,14 +222,15 @@ class _MainPageState extends State<MainPage> {
 }
 
 
+
 // import 'package:flutter/material.dart';
+// import 'package:intl/intl.dart';
+// import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 // import 'package:zc_dodiddone/screens/all_tasks.dart';
 // import 'package:zc_dodiddone/screens/profile.dart'; // Импортируем profile_page
-// import 'package:datetime_picker_formfield/datetime_picker_formfield.dart'; // Импортируем DateTimePickerFormField
-// import 'package:intl/intl.dart';
 
 // class MainPage extends StatefulWidget {
-//   const MainPage({Key? key}) : super(key: key);
+//   const MainPage({super.key});
 
 //   @override
 //   State<MainPage> createState() => _MainPageState();
@@ -245,9 +254,9 @@ class _MainPageState extends State<MainPage> {
 //   // Функция для показа диалогового окна
 //   void _showAddTaskDialog() {
 //     // Используем GlobalKey для управления состоянием формы
-//     final _formKey = GlobalKey<FormState>();
+//     final formKey = GlobalKey<FormState>();
 //     // Переменная для хранения выбранной даты
-//     DateTime? _selectedDate;
+//     DateTime? selectedDate;
 
 //     showDialog(
 //       context: context,
@@ -255,42 +264,88 @@ class _MainPageState extends State<MainPage> {
 //         return AlertDialog(
 //           title: const Text('Добавить задачу'),
 //           content: Form(
-//             key: _formKey, // Привязываем форму к GlobalKey
+//             key: formKey, // Привязываем форму к GlobalKey
 //             child: Column(
 //               mainAxisSize: MainAxisSize.min,
 //               children: [
-//                 TextFormField(
-//                   decoration: const InputDecoration(
-//                     labelText: 'Название задачи',
+//                 const Text(
+//                       'Добавить задачу',
+//                       style: TextStyle(
+//                         fontSize: 20,
+//                         fontWeight: FontWeight.bold,
+//                       ),
+//                     ),
+//                     const SizedBox(height: 16),
+//                 Padding(
+//                   padding: const EdgeInsets.only(top: 16.0),
+//                   child: Row(
+//                     children: [
+//                       const Text('Название задачи'),
+//                     ],
 //                   ),
-//                   // ... (добавьте обработку ввода названия задачи)
 //                 ),
 //                 TextFormField(
-//                   decoration: const InputDecoration(
-//                     labelText: 'Описание',
+//                   // decoration: const InputDecoration(
+//                   //   labelText: 'Название задачи',
+//                   // ),
+//                   // ... (добавьте обработку ввода названия задачи)
+//                 ),
+//                  Padding(
+//                   padding: const EdgeInsets.only(top: 16.0),
+//                   child: Row(
+//                     children: [
+//                       const Text('Описание'),
+//                     ],
 //                   ),
+//                 ),
+//                 TextFormField(
+//                   // decoration: const InputDecoration(
+//                   //   labelText: 'Описание',
+//                   // ),
 //                   // ... (добавьте обработку ввода описания задачи)
 //                 ),
 //                 // Поле для выбора даты дедлайна
-//                                 // Поле для выбора даты дедлайна
 //                 Padding(
 //                   padding: const EdgeInsets.only(top: 16.0),
-//                   child: DateTimePickerFormField( // Заменяем GestureDetector на DateTimePickerFormField
-//                     decoration: const InputDecoration(
-//                       labelText: 'Дедлайн',
-//                     ),
-//                     format: DateFormat('dd.MM.yyyy HH:mm'), // Формат даты и времени
-//                     initialDate: DateTime.now().add(const Duration(days: 1)), // Текущая дата + 1 день
-//                     firstDate: DateTime.now(),
-//                     lastDate: DateTime.now().add(const Duration(days: 365)),
-//                     onChanged: (DateTime? date) {
-//                       setState(() {
-//                         _selectedDate = date;
-//                       });
-//                     },
+//                   child: Row(
+//                     children: [
+//                       const Text('Дедлайн'),
+//                     ],
 //                   ),
 //                 ),
-
+//                 Padding(
+//                   padding: const EdgeInsets.only(top: 0.0),
+//                   child: Column(
+//                     children: <Widget>[
+//                       // const Text('Дедлайн'),
+//                       DateTimeField(
+//                         format: DateFormat('dd.MM.yy HH:mm'),
+//                         onShowPicker: (context, currentValue) {
+//                           return showDatePicker(
+//                             context: context,
+//                             firstDate: DateTime(1900),
+//                             initialDate: currentValue ?? DateTime.now(),
+//                             lastDate: DateTime(2100),
+//                           ).then((date) {
+//                             if (date != null) {
+//                               return showTimePicker(
+//                                 context: context,
+//                                 initialTime: TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
+//                               ).then((time) {
+//                                 return DateTimeField.combine(date, time);
+//                               });
+//                             }
+//                           });
+//                         },
+//                         onChanged: (DateTime? date) {
+//                           setState(() {
+//                             selectedDate = date;
+//                           });
+//                         },
+//                       ),
+//                     ],
+//                   ),
+//                 ),
 //               ],
 //             ),
 //           ),
@@ -330,33 +385,33 @@ class _MainPageState extends State<MainPage> {
 //       body: Column(
 //         children: [
 //           Expanded(
-//           child: Container(
-//             decoration: BoxDecoration(
-//               gradient: LinearGradient(
-//                 begin: Alignment.topLeft,
-//                 end: Alignment.bottomCenter,
-//                 colors: [
-//                   secondaryColor,
-//                   primaryColor,              
-//                 ],
-//                 stops: const [0.1, 0.9], // Основной цвет занимает 90%
+//             child: Container(
+//               decoration: BoxDecoration(
+//                 gradient: LinearGradient(
+//                   begin: Alignment.topLeft,
+//                   end: Alignment.bottomCenter,
+//                   colors: [
+//                     secondaryColor,
+//                     primaryColor,
+//                   ],
+//                   stops: const [0.1, 0.9], // Основной цвет занимает 90%
+//                 ),
 //               ),
-//             ),
-//             child: Center(
-//             child: IndexedStack(
-//                           index: _selectedIndex,
-//                           children: [
-//                             // Задачи
-//                             _widgetOptions.elementAt(0),
-//                             // Сегодня
-//                             _widgetOptions.elementAt(1),
-//                             // Выполнено
-//                             _widgetOptions.elementAt(2),
-//                             // Профиль
-//                             ProfilePage(), // Отображаем profile_page при выборе "Профиль"
-//                           ],
-//                         ),
-//              ),
+//               child: Center(
+//                 child: IndexedStack(
+//                   index: _selectedIndex,
+//                   children: [
+//                     // Задачи
+//                     _widgetOptions.elementAt(0),
+//                     // Сегодня
+//                     _widgetOptions.elementAt(1),
+//                     // Выполнено
+//                     _widgetOptions.elementAt(2),
+//                     // Профиль
+//                     const ProfilePage(), // Отображаем profile_page при выборе "Профиль"
+//                   ],
+//                 ),
+//               ),
 //             ),
 //           ),
 //         ],
