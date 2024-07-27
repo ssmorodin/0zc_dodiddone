@@ -59,14 +59,14 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Image.asset(
                     'assets/logo.png', // Замените на правильный путь к файлу
-                    height: 60, // Устанавливаем высоту изображения
+                    height: 50, // Устанавливаем высоту изображения
                   ),
                   const SizedBox(width: 8),
                   // Добавляем текст "zerocoder"
                   const Text(
                     'zerocoder',
                     style: TextStyle(
-                      fontSize: 62,
+                      fontSize: 42,
                       fontWeight: FontWeight.bold,
                       color: Colors.white, // Белый цвет текста
                     ),
@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: RichText(
                     text: TextSpan(
                       style: const TextStyle(
-                        fontSize: 32,
+                        fontSize: 28,
                         fontWeight: FontWeight.bold,
                       ),
                       children: [
@@ -103,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text(
                       isLogin ? 'Вход' : 'Регистрация',
                       style: TextStyle(
-                        fontSize: 36,
+                        fontSize: 28,
                         fontWeight: FontWeight.bold,
                         color: Colors.white, // Белый цвет текста
                       ),

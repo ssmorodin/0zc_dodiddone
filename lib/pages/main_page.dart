@@ -54,12 +54,12 @@ class _MainPageState extends State<MainPage> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 4),
                         const Padding(
                           padding: EdgeInsets.only(top: 8.0),
                           child: Row(
                             children: [
-                              Text('Название задачи'),
+                              Text('Название'),
                             ],
                           ),
                         ),
@@ -70,7 +70,7 @@ class _MainPageState extends State<MainPage> {
                           // ... (добавьте обработку ввода названия задачи)
                         ),
                         const Padding(
-                          padding: EdgeInsets.only(top: 8.0),
+                          padding: EdgeInsets.only(top: 4.0),
                           child: Row(
                             children: [
                               Text('Описание'),
@@ -85,7 +85,7 @@ class _MainPageState extends State<MainPage> {
                         ),
                         // Поле для выбора даты дедлайна
                         const Padding(
-                          padding: EdgeInsets.only(top: 8.0),
+                          padding: EdgeInsets.only(top: 4.0),
                           child: Row(
                             children: [
                               Text('Дедлайн'),
