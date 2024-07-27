@@ -3,7 +3,7 @@ import 'package:zc_dodiddone/theme/theme.dart';
 import '../pages/login_page.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -25,16 +25,16 @@ class _ProfilePageState extends State<ProfilePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Аватар
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 50,
-                      backgroundImage: const AssetImage(
+                      backgroundImage: AssetImage(
                           'assets/avatar.png'), // Замените на реальный путь к аватару
                     ),
                     const SizedBox(height: 20),
                     // Почта
-                    Text(
+                    const Text(
                       'example@email.com', // Замените на реальную почту пользователя
-                      style: const TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 18),
                     ),
                     const SizedBox(height: 10),
                     // Кнопка подтверждения почты (отображается, если почта не подтверждена)

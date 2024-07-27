@@ -9,9 +9,9 @@ class DoDidDoneTheme {
       secondary: const Color(0xFF4ceb8b),  // Secondary color
     ),
     useMaterial3: true,
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       selectedItemColor: Color.fromARGB(255, 88, 57, 161), // Основной цвет
-      unselectedItemColor: const Color(0xFF555555), // Серый цвет для неактивных иконок
+      unselectedItemColor: Color(0xFF555555), // Серый цвет для неактивных иконок
     ),
     cardColor: Colors.white,
   );

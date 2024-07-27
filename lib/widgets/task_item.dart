@@ -6,11 +6,11 @@ class TaskItem extends StatelessWidget {
   final DateTime deadline;
 
   const TaskItem({
-    Key? key,
+    super.key,
     required this.title,
     required this.description,
     required this.deadline,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class TaskItem extends StatelessWidget {
                   colors: [gradientStart, Colors.white], // Используем gradientStart
                   stops: const [0.0, 0.3],
                 ),
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(12),
                 topRight: Radius.circular(12),
                 ),
