@@ -37,35 +37,39 @@ class _MainPageState extends State<MainPage> {
       //   title: const Text('DoDidDone'),
       //   centerTitle: true,
       // ),
-      body: Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomCenter,
-            colors: [
-              secondaryColor,
-              primaryColor,              
-            ],
-            stops: const [0.1, 0.9], // Основной цвет занимает 90%
+      body: Column(
+        children: [
+          Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomCenter,
+                colors: [
+                  secondaryColor,
+                  primaryColor,              
+                ],
+                stops: const [0.1, 0.9], // Основной цвет занимает 90%
+              ),
+            ),
+            child: Center(
+            child: IndexedStack(
+                          index: _selectedIndex,
+                          children: [
+                            // Задачи
+                            _widgetOptions.elementAt(0),
+                            // Сегодня
+                            _widgetOptions.elementAt(1),
+                            // Выполнено
+                            _widgetOptions.elementAt(2),
+                            // Профиль
+                            ProfilePage(), // Отображаем profile_page при выборе "Профиль"
+                          ],
+                        ),
+             ),
+            ),
           ),
-        ),
-        child: Center(
-        child: IndexedStack(
-                      index: _selectedIndex,
-                      children: [
-                        // Задачи
-                        _widgetOptions.elementAt(0),
-                        // Сегодня
-                        _widgetOptions.elementAt(1),
-                        // Выполнено
-                        _widgetOptions.elementAt(2),
-                        // Профиль
-                        ProfilePage(), // Отображаем profile_page при выборе "Профиль"
-                      ],
-                    ),
-         ),
-        ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
