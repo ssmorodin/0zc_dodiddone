@@ -38,16 +38,16 @@ class TaskItem extends StatelessWidget {
     return Dismissible(
       key: Key(taskId), // Используем taskId для уникального ключа
       background: Container(
-        color: Colors.green, // Цвет для "Задача на сегодня"
-        alignment: Alignment.centerRight,
+        color: Colors.green, // Цвет смахнуть вправо
+        alignment: Alignment.centerLeft,
         padding: const EdgeInsets.only(right: 20),
-        child: const Icon(Icons.calendar_today, color: Colors.white), // Иконка календаря
+        child: const Icon(Icons.chevron_right_rounded, color: Colors.white), // Иконка календаря
       ),
       secondaryBackground: Container(
-        color: Colors.blue, // Цвет для "Выполнено"
-        alignment: Alignment.centerLeft,
+        color: Colors.blue, // Цвет смахнуть влево
+        alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(left: 20),
-        child: const Icon(Icons.check_circle, color: Colors.white), // Иконка галочки
+        child: const Icon(Icons.chevron_left_rounded, color: Colors.white), // Иконка галочки
       ),
       onDismissed: (direction) {
         if (direction == DismissDirection.endToStart) {
