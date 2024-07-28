@@ -35,7 +35,7 @@ class _TasksPageState extends State<TasksPage> {
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: _tasksCollection
-            // .where('userId', isEqualTo: _userId) // Фильтруем задачи по ID пользователя
+            .where('userId', isEqualTo: _userId) // Фильтруем задачи по ID пользователя
             .snapshots(),
         builder: (context, snapshot) {
           // Вставьте эти строки для отладки
@@ -53,21 +53,41 @@ class _TasksPageState extends State<TasksPage> {
 
           final tasks = snapshot.data!.docs;
 
-          return ListView.builder(
-            itemCount: tasks.length,
-            itemBuilder: (context, index) {
-              final taskData = tasks[index].data();
-              final taskId = tasks[index].id;
-
-              return TaskItem(
-                title: taskData['title'] ?? '',
-                description: taskData['description'] ?? '',
-                deadline: (taskData['deadline'] as Timestamp?)?.toDate() ??
-                    DateTime.now(),
-                taskId: taskId, // Передаем ID задачи
+            if (tasks.isEmpty) {
+              // Если задач нет, показываем сообщение
+              return const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Все сделано, время отдыхать..\n А может создадим новую задачу?',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      // Убрали кнопку "Создать новую задачу"
+                    ],
+                  ),
+                ),
               );
-            },
-          );
+            } else {
+              // Если есть задачи, отображаем их
+              return ListView.builder(
+                itemCount: tasks.length,
+                itemBuilder: (context, index) {
+                  final taskData = tasks[index].data();
+                  final taskId = tasks[index].id;
+
+                  return TaskItem(
+                    title: taskData['title'] ?? '',
+                    description: taskData['description'] ?? '',
+                    deadline: (taskData['deadline'] as Timestamp?)?.toDate() ??
+                        DateTime.now(),
+                    taskId: taskId, // Передаем ID задачи
+                  );
+                },
+              );
+            }
         }
       ); 
    }
