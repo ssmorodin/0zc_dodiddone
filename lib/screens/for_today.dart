@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import '../widgets/task_item.dart';
 import '../services/firebase_auth.dart';
 
-class TasksPage extends StatefulWidget {
-  const TasksPage({super.key});
+class ForTodayPage extends StatefulWidget {
+  const ForTodayPage({super.key});
 
   @override
-  State<TasksPage> createState() => _TasksPageState();
+  State<ForTodayPage> createState() => _TasksPageState();
 }
 
-class _TasksPageState extends State<TasksPage> {
+class _TasksPageState extends State<ForTodayPage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final CollectionReference<Map<String, dynamic>> _tasksCollection =
       FirebaseFirestore.instance.collection('tasks'); // Изменили тип
@@ -60,8 +60,7 @@ class _TasksPageState extends State<TasksPage> {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: _tasksCollection
         .where('userId', isEqualTo: _userId)// Фильтруем задачи по ID пользователя
-        .where('completed', isEqualTo: false)// Фильтруем задачи от завершенных
-        .where('is_for_today', isEqualTo: false)
+        .where('is_for_today', isEqualTo: true)// Фильтруем задачи от завершенных
         .snapshots(),
         builder: (context, snapshot) {
           // Вставьте эти строки для отладки
@@ -108,8 +107,8 @@ class _TasksPageState extends State<TasksPage> {
                     description: taskData['description'] ?? '',
                     deadline: (taskData['deadline'] as Timestamp?)?.toDate() ?? DateTime.now(),
                     taskId: taskId, // Передаем ID задачи
-                    toLeft: () => _markTaskCompleted(taskId),
-                    toRight: () => _markTaskForToday(taskId),
+                    toLeft: () => _markTaskUnCompleted(taskId),
+                    toRight: () => _markTaskCompleted(taskId),
                     );
                   },
 

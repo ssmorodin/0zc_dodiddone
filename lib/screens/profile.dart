@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/theme.dart';
 import '../pages/login_page.dart';
-import '../services/firebase_auth.dart'; // Импортируем AuthenticationService
+import '../services/firebase_auth.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

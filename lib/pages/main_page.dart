@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../screens/completed.dart';
 import '../screens/all_tasks.dart';
-import '../screens/profile.dart'; // Импортируем profile_page
-import 'package:cloud_firestore/cloud_firestore.dart'; // Импортируем FirebaseFirestore
-import '../services/firebase_auth.dart'; // Импортируем AuthenticationService
+import '../screens/for_today.dart';
+import '../screens/profile.dart';
+import '../services/firebase_auth.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -18,8 +20,9 @@ class _MainPageState extends State<MainPage> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     TasksPage(), // Создаем экземпляр TasksPage
-    Text('Сегодня'),
-    Text('Выполнено'),
+    ForTodayPage(), // Создаем экземпляр ForTodayPage
+    CompletedPage(), // Создаем экземпляр CompletedPage
+    ProfilePage(), // Создаем экземпляр ProfilePage
   ];
 
   void _onItemTapped(int index) {
@@ -164,6 +167,8 @@ class _MainPageState extends State<MainPage> {
                             'title': title!, // Теперь доступно
                             'description': description!,
                             'deadline': selectedDate,
+                            'completed': false,
+                            'is_for_today': false,
                             'userId': userId, // Добавляем ID пользователя
                           });
 
