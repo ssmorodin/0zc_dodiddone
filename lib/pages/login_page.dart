@@ -106,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                   Center(
                     child: Text(
                         isLogin ? 'Вход' : 'Регистрация',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
                           color: Colors.white, // Белый цвет текста
@@ -208,7 +208,7 @@ class _LoginPageState extends State<LoginPage> {
                             // После регистрации отправляем запрос на подтверждение почты
                             await _authService.sendEmailVerification();
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Регистрация успешна! Проверьте свою почту для подтверждения.')),
+                              const SnackBar(content: Text('Регистрация успешна! Проверьте свою почту для подтверждения.')),
                             );
                           } catch (e) {
                             // Обработка ошибок регистрации
