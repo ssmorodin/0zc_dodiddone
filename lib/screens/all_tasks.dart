@@ -25,6 +25,26 @@ class _TasksPageState extends State<TasksPage> {
     _getUserData(); // Получаем данные пользователя при инициализации
   }
 
+  List<QueryDocumentSnapshot<Map<String, dynamic>>> tasks = []; // Список задач
+
+  void _markTaskCompleted(String taskId) {
+    _tasksCollection.doc(taskId).update({'completed': true}).then((_) {
+      _updateTaskList(); // Обновляем список задач
+    });
+  }
+
+  void _markTaskForToday(String taskId) {
+    _tasksCollection.doc(taskId).update({'is_for_today': true}).then((_) {
+      _updateTaskList(); // Обновляем список задач
+    });
+  }
+
+  void _updateTaskList() {
+    setState(() {
+      tasks.removeWhere((task) => task.data()['completed'] == true);
+    });
+  }
+
   Future<void> _getUserData() async {
     // Получаем ID пользователя
     _userId = await _authService.getUserId();
@@ -77,15 +97,16 @@ class _TasksPageState extends State<TasksPage> {
                 itemBuilder: (context, index) {
                   final taskData = tasks[index].data();
                   final taskId = tasks[index].id;
-
-                  return TaskItem(
+                    return TaskItem(
                     title: taskData['title'] ?? '',
                     description: taskData['description'] ?? '',
-                    deadline: (taskData['deadline'] as Timestamp?)?.toDate() ??
-                        DateTime.now(),
+                    deadline: (taskData['deadline'] as Timestamp?)?.toDate() ?? DateTime.now(),
                     taskId: taskId, // Передаем ID задачи
-                  );
-                },
+                    toLeft: () => _markTaskCompleted(taskId), // Передаем функцию _markTaskCompleted
+                    toRight: () => _markTaskForToday(taskId), // Передаем функцию _markTaskForToday
+                    );
+                  },
+
               );
             }
         }
