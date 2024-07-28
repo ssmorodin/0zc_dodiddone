@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -32,7 +31,7 @@ class AuthService {
       rethrow; // Перебросить исключение
     }
   }
-  
+
   // Выход из системы
   Future<void> signOut() async {
     try {
@@ -54,4 +53,44 @@ class AuthService {
       print("Ошибка: $e");
     }
   }
+
+  // Получение email пользователя
+  Future<String?> getUserEmail() async {
+    final user = _auth.currentUser;
+    if (user != null) {
+      return user.email;
+    }
+    return null;
+  }
+
+  // Получение URL аватара пользователя
+  Future<String?> getUserAvatarUrl() async {
+    final user = _auth.currentUser;
+    if (user != null) {
+      // Добавьте логику для получения URL аватара из Firebase
+      // Например, вы можете использовать user.photoURL, если вы сохраняете аватар в Firebase
+      return user.photoURL; 
+    }
+    return null;
+  }
+
+  // Проверка подтверждения почты
+  bool isEmailVerified() {
+    final user = _auth.currentUser;
+    if (user != null) {
+      return user.emailVerified;
+    }
+    return false;
+  }
+
+    // Получение ID пользователя
+  Future<String?> getUserId() async {
+    final user = _auth.currentUser;
+    if (user != null) {
+      return user.uid; // Возвращаем UID пользователя
+    }
+    return null;
+  }
+
+
 }

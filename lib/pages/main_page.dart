@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'package:zc_dodiddone/screens/all_tasks.dart';
-import 'package:zc_dodiddone/screens/profile.dart'; // Импортируем profile_page
+import '../screens/all_tasks.dart';
+import '../screens/profile.dart'; // Импортируем profile_page
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
