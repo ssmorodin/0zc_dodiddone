@@ -55,7 +55,7 @@ class _MainPageState extends State<MainPage> {
             // Устанавливаем ширину диалогового окна
             width: MediaQuery.of(context).size.width * 0.9,
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(4.0),
               child: SingleChildScrollView( // Добавляем SingleChildScrollView
                 child: AlertDialog(
                   title: const Text('Добавить задачу'),
@@ -66,7 +66,7 @@ class _MainPageState extends State<MainPage> {
                       children: [
                         const SizedBox(height: 4),
                         const Padding(
-                          padding: EdgeInsets.only(top: 8.0),
+                          padding: EdgeInsets.only(top: 4.0),
                           child: Row(
                             children: [
                               Text('Название'),
@@ -74,10 +74,6 @@ class _MainPageState extends State<MainPage> {
                           ),
                         ),
                         TextFormField(
-                          // decoration: const InputDecoration(
-                          //   labelText: 'Название задачи',
-                          // ),
-                          // ... (добавьте обработку ввода названия задачи)
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Введите название задачи';
@@ -97,15 +93,10 @@ class _MainPageState extends State<MainPage> {
                           ),
                         ),
                         TextFormField(
-                          // decoration: const InputDecoration(
-                          //   labelText: 'Описание',
-                          // ),
-                          // ... (добавьте обработку ввода описания задачи)
                           onSaved: (value) {
                             description = value;
                           },
                         ),
-                        // Поле для выбора даты дедлайна
                         const Padding(
                           padding: EdgeInsets.only(top: 4.0),
                           child: Row(
@@ -119,9 +110,9 @@ class _MainPageState extends State<MainPage> {
                           onShowPicker: (context, currentValue) {
                             return showDatePicker(
                               context: context,
-                              firstDate: DateTime(1900),
+                              firstDate: DateTime(2024),
                               initialDate: currentValue ?? DateTime.now(),
-                              lastDate: DateTime(2100),
+                              lastDate: DateTime(2030),
                             ).then((date) {
                               if (date != null) {
                                 return showTimePicker(
@@ -147,7 +138,7 @@ class _MainPageState extends State<MainPage> {
                   actions: [
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).pop(); // Закрыть диалоговое окно
+                        Navigator.of(context).pop();
                       },
                       child: const Text('Отмена'),
                     ),
@@ -161,15 +152,13 @@ class _MainPageState extends State<MainPage> {
                           formKey.currentState!.save();
 
                           // Добавляем задачу в Firestore
-                          await FirebaseFirestore.instance
-                              .collection('tasks')
-                              .add({
-                            'title': title!, // Теперь доступно
+                          await FirebaseFirestore.instance.collection('tasks').add({
+                            'title': title!,
                             'description': description!,
                             'deadline': selectedDate,
                             'completed': false,
                             'is_for_today': false,
-                            'userId': userId, // Добавляем ID пользователя
+                            'userId': userId,
                           });
 
                           Navigator.of(context).pop(); // Закрыть диалоговое окно
