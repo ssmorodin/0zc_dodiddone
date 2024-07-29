@@ -16,10 +16,9 @@ class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    TasksPage(), // Создаем экземпляр TasksPage
-    ForTodayPage(), // Создаем экземпляр ForTodayPage
-    CompletedPage(), // Создаем экземпляр CompletedPage
-    // ProfilePage(), // Создаем экземпляр ProfilePage
+    TasksPage(),
+    ForTodayPage(),
+    CompletedPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -28,15 +27,13 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
-  // Функция для показа диалогового окна добавления задачи
 void _showAddTaskDialog() {
   showDialog(
     context: context,
-    builder: (context) => DialogWidget(), // No need for onSubmit here
+    builder: (context) => const DialogWidget(),
   );
 }
 
-  // Функция для показа диалогового окна редактирования задачи
 void _showEditTaskDialog(String taskId, String title, String description, DateTime deadline) {
   showDialog(
     context: context,
@@ -53,24 +50,23 @@ void _showEditTaskDialog(String taskId, String title, String description, DateTi
   Widget build(BuildContext context) {
     final primaryColor = Theme.of(context).primaryColor;
     final secondaryColor = Theme.of(context).colorScheme.secondary;
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.transparent, // Прозрачный AppBar
-        elevation: 0, // Убираем тень
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         actions: [
           IconButton(
            onPressed: () {
            Navigator.push(context,
-           MaterialPageRoute(builder: (context) => ProfilePage()));
+           MaterialPageRoute(builder: (context) => const ProfilePage()));
           },
            icon: const Icon(
              Icons.person_2,
              color: Colors.white,
-           ) // Icon
-         ), // IconButton
-         ],// IconButton
+           )
+         ),
+         ],
       ),
       body: Column(
         children: [
@@ -84,7 +80,7 @@ void _showEditTaskDialog(String taskId, String title, String description, DateTi
                     secondaryColor,
                     primaryColor,
                   ],
-                  stops: const [0.1, 0.9], // Основной цвет занимает 90%
+                  stops: const [0.1, 0.9],
                 ),
               ),
               child: Center(
@@ -97,8 +93,6 @@ void _showEditTaskDialog(String taskId, String title, String description, DateTi
                     _widgetOptions.elementAt(1),
                     // Выполнено
                     _widgetOptions.elementAt(2),
-                    // Профиль
-                    // const ProfilePage(), // Отображаем profile_page при выборе "Профиль"
                   ],
                 ),
               ),
@@ -120,16 +114,12 @@ void _showEditTaskDialog(String taskId, String title, String description, DateTi
             icon: Icon(Icons.check_circle),
             label: 'Выполнено',
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.person),
-          //   label: 'Профиль',
-          // ),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _showAddTaskDialog, // Вызываем диалоговое окно при нажатии
+        onPressed: _showAddTaskDialog,
         child: const Icon(Icons.add),
       ),
     );

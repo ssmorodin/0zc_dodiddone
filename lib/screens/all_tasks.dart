@@ -14,33 +14,32 @@ class TasksPage extends StatefulWidget {
 class _TasksPageState extends State<TasksPage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final CollectionReference<Map<String, dynamic>> _tasksCollection =
-      FirebaseFirestore.instance.collection('tasks'); // Изменили тип
-  final _authService = AuthService(); // Создаем экземпляр AuthenticationService
-  String? _userId; // Переменная для хранения ID пользователя
-
+      FirebaseFirestore.instance.collection('tasks');
+  final _authService = AuthService();
+  String? _userId;
   @override
   void initState() {
     super.initState();
-    _getUserData(); // Получаем данные пользователя при инициализации
+    _getUserData();
   }
 
-  List<QueryDocumentSnapshot<Map<String, dynamic>>> tasks = []; // Список задач
+  List<QueryDocumentSnapshot<Map<String, dynamic>>> tasks = [];
 
   void _markTaskCompleted(String taskId) {
     _tasksCollection.doc(taskId).update({'completed': true, 'is_for_today': false}).then((_) {
-      _updateTaskList(); // Обновляем список задач
+      _updateTaskList();
     });
   }
 
   void _markTaskUnCompleted(String taskId) {
     _tasksCollection.doc(taskId).update({'completed': false, 'is_for_today': false}).then((_) {
-      _updateTaskList(); // Обновляем список задач
+      _updateTaskList();
     });
   }
 
   void _markTaskForToday(String taskId) {
     _tasksCollection.doc(taskId).update({'completed': false, 'is_for_today': true}).then((_) {
-      _updateTaskList(); // Обновляем список задач
+      _updateTaskList();
     });
   }
 
@@ -51,9 +50,8 @@ class _TasksPageState extends State<TasksPage> {
   }
 
   Future<void> _getUserData() async {
-    // Получаем ID пользователя
     _userId = await _authService.getUserId();
-    setState(() {}); // Обновляем состояние, чтобы отобразить полученные данные
+    setState(() {});
   }
 
   // Функция для показа диалогового окна редактирования задачи
@@ -72,7 +70,6 @@ class _TasksPageState extends State<TasksPage> {
   // Функция для удаления задачи
   void _deleteTask(String taskId) {
     _tasksCollection.doc(taskId).delete().then((_) {
-      // Обновляем список задач после удаления
       _updateTaskList();
     });
   }
@@ -81,16 +78,11 @@ class _TasksPageState extends State<TasksPage> {
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: _tasksCollection
-            .where('userId', isEqualTo: _userId) // Фильтруем задачи по ID пользователя
-            .where('completed', isEqualTo: false) // Фильтруем задачи от завершенных
+            .where('userId', isEqualTo: _userId)
+            .where('completed', isEqualTo: false)
             .where('is_for_today', isEqualTo: false)
             .snapshots(),
         builder: (context, snapshot) {
-          // Вставьте эти строки для отладки
-          print('snapshot.hasError: ${snapshot.hasError}');
-          print('snapshot.connectionState: ${snapshot.connectionState}');
-          print('snapshot.data: ${snapshot.data}');
-
           if (snapshot.hasError) {
             return const Center(child: Text('Ошибка загрузки задач'));
           }
@@ -102,7 +94,6 @@ class _TasksPageState extends State<TasksPage> {
           final tasks = snapshot.data!.docs;
 
             if (tasks.isEmpty) {
-              // Если задач нет, показываем сообщение
               return const Center(
                 child: Padding(
                   padding: EdgeInsets.all(20.0),
@@ -113,13 +104,11 @@ class _TasksPageState extends State<TasksPage> {
                         'Все сделано, время отдыхать..\n А может создадим новую задачу?',
                         style: TextStyle(fontSize: 20),
                       ),
-                      // Убрали кнопку "Создать новую задачу"
                     ],
                   ),
                 ),
               );
             } else {
-              // Если есть задачи, отображаем их
               return ListView.builder(
                 itemCount: tasks.length,
                 itemBuilder: (context, index) {
@@ -129,7 +118,7 @@ class _TasksPageState extends State<TasksPage> {
                     title: taskData['title'] ?? '',
                     description: taskData['description'] ?? '',
                     deadline: (taskData['deadline'] as Timestamp?)?.toDate() ?? DateTime.now(),
-                    taskId: taskId, // Передаем ID задачи
+                    taskId: taskId,
                     toLeft: () => _markTaskCompleted(taskId),
                     toRight: () => _markTaskForToday(taskId),
                   onEdit: () => _showEditTaskDialog(
@@ -137,8 +126,8 @@ class _TasksPageState extends State<TasksPage> {
                       taskData['title'],
                       taskData['description'],
                       (taskData['deadline'] as Timestamp?)?.toDate() ??
-                          DateTime.now()), // Передаем функцию редактирования
-                  onDelete: () => _deleteTask(taskId), // Передаем функцию удаления
+                          DateTime.now()),
+                  onDelete: () => _deleteTask(taskId),
                 );
                   },
 

@@ -11,12 +11,12 @@ class DialogWidget extends StatefulWidget {
   final String? taskId;
 
   const DialogWidget({
-    Key? key,
+    super.key,
     this.initialTitle,
     this.initialDescription,
     this.initialDeadline,
     this.taskId,
-  }) : super(key: key);
+  });
 
   @override
   State<DialogWidget> createState() => _DialogWidgetState();
@@ -27,7 +27,7 @@ class _DialogWidgetState extends State<DialogWidget> {
   DateTime? selectedDate;
   String? title;
   String? description;
-  String? userId; // Добавили переменную для хранения ID пользователя
+  String? userId;
 
   @override
   void initState() {
@@ -35,12 +35,12 @@ class _DialogWidgetState extends State<DialogWidget> {
     title = widget.initialTitle;
     description = widget.initialDescription;
     selectedDate = widget.initialDeadline;
-    _fetchUserId(); // Получаем ID пользователя при инициализации
+    _fetchUserId();
   }
 
   Future<void> _fetchUserId() async {
     userId = await AuthService().getUserId();
-    setState(() {}); // Обновляем состояние, чтобы отобразить ID пользователя
+    setState(() {});
   }
 
   @override
@@ -132,8 +132,6 @@ class _DialogWidgetState extends State<DialogWidget> {
                         });
                       },
                     ),
-                    // Выводим ID пользователя перед кнопкой "Отмена"
-                    // if (userId != null) Text('ID пользователя: $userId'),
                   ],
                 ),
               ),
@@ -148,9 +146,7 @@ class _DialogWidgetState extends State<DialogWidget> {
                   onPressed: () async {
                     if (formKey.currentState!.validate()) {
                       formKey.currentState!.save();
-                      // Сохраняем задачу в Firestore
                       if (widget.taskId != null) {
-                        // Обновление задачи
                         await FirebaseFirestore.instance
                             .collection('tasks')
                             .doc(widget.taskId)
@@ -160,17 +156,15 @@ class _DialogWidgetState extends State<DialogWidget> {
                           'deadline': selectedDate!,
                         });
                       } else {
-                        // Добавление новой задачи
                         await FirebaseFirestore.instance.collection('tasks').add({
                           'title': title!,
                           'description': description!,
                           'deadline': selectedDate!,
                           'completed': false,
                           'is_for_today': false,
-                          'userId': userId, // Используем полученный ID пользователя
+                          'userId': userId,
                         });
                       }
-                      // Закрываем диалоговое окно после сохранения
                       Navigator.of(context).pop(); 
                     }
                   },

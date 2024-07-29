@@ -41,21 +41,19 @@ class TaskItem extends StatelessWidget {
         color: Colors.green, // Цвет смахнуть вправо
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.only(right: 20),
-        child: const Icon(Icons.chevron_right_rounded, color: Colors.white), // Иконка календаря
+        child: const Icon(Icons.chevron_right_rounded, color: Colors.white),
       ),
       secondaryBackground: Container(
         color: Colors.blue, // Цвет смахнуть влево
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(left: 20),
-        child: const Icon(Icons.chevron_left_rounded, color: Colors.white), // Иконка галочки
+        child: const Icon(Icons.chevron_left_rounded, color: Colors.white),
       ),
       onDismissed: (direction) {
         if (direction == DismissDirection.endToStart) {
-          // Действие для "Задача на сегодня"
-          toLeft?.call(); // Вызываем функцию totLeft
+          toLeft?.call();
         } else if (direction == DismissDirection.startToEnd) {
-          // Действие для "Выполнено"
-          toRight?.call(); // Вызываем функцию toRigh
+          toRight?.call();
         }
       },
       child: Card(
@@ -69,7 +67,7 @@ class TaskItem extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [gradientStart, Colors.white], // Используем gradientStart
+                  colors: [gradientStart, Colors.white],
                   stops: const [0.0, 0.3],
                 ),
                 borderRadius: const BorderRadius.only(
@@ -85,23 +83,19 @@ class TaskItem extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        // color: Colors.white, // Белый текст для контраста
                       ),
                     ),
                   ),
-                  // Кнопки "Редактировать" и "Удалить" (вернули в рабочий код)
                   IconButton(
-                    onPressed: onEdit != null ? () => onEdit!() : null, // Вызываем onEdit, если он не null
+                    onPressed: onEdit != null ? () => onEdit!() : null,
                     icon: const Icon(
                       Icons.edit,
-                      // color: Colors.brown,
                     ),
                   ),
                   IconButton(
-                    onPressed: onDelete != null ? () => onDelete!() : null, // Вызываем onDelete, если он не null
+                    onPressed: onDelete != null ? () => onDelete!() : null,
                     icon: const Icon(
                       Icons.delete,
-                      // color: Colors.brown,
                     ),
                   ),
                 ],

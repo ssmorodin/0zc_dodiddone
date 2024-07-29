@@ -13,23 +13,23 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late final AuthService _authService; // Declare as late
-  User? _user; // Use a private variable
+  late final AuthService _authService;
+  User? _user;
 
   @override
   void initState() {
     super.initState();
-    _authService = AuthService(); // Initialize AuthService
-    _user = _authService.currentUser; // Get the current user
+    _authService = AuthService();
+    _user = _authService.currentUser;
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Do-Did-Done',
       theme: DoDidDoneTheme.lightTheme,
       home: _user != null ? const MainPage() : const LoginPage(),
     );
   }
 }
-

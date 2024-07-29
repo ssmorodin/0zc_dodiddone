@@ -10,8 +10,8 @@ class DoDidDoneTheme {
     ),
     useMaterial3: true,
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      selectedItemColor: Color.fromARGB(255, 88, 57, 161), // Основной цвет
-      unselectedItemColor: Color(0xFF555555), // Серый цвет для неактивных иконок
+      selectedItemColor: Color(0xFF5839A1), // Primary Icon
+      unselectedItemColor: Color(0xFF555555), // Secondary Icon
     ),
     cardColor: Colors.white,
   );

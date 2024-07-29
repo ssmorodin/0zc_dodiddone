@@ -10,12 +10,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool isLogin = true; // Флаг для определения режима (вход/регистрация)
+  bool isLogin = true;
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _checkPasswordController = TextEditingController();
-  final _authService = AuthService(); // Создаем экземпляр AuthService
+  final _authService = AuthService();
 
   @override
   void dispose() {
@@ -47,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
                       primaryColor,
                       secondaryColor,
                     ],
-              stops: const [0.1, 0.9], // Основной цвет занимает 90%
+              stops: const [0.1, 0.9],
             ),
           ),
           child: Padding(
@@ -62,23 +62,22 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
-                        'assets/logo.png', // Замените на правильный путь к файлу
-                        height: 50, // Устанавливаем высоту изображения
+                        'assets/logo.png',
+                        height: 50,
                       ),
                       const SizedBox(width: 8),
-                      // Добавляем текст "zerocoder"
                       const Text(
                         'zerocoder',
                         style: TextStyle(
                           fontSize: 42,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white, // Белый цвет текста
+                          color: Colors.white,
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 30),
-                  Center( // Добавлено Center
+                  Center(
                     child: RichText(
                       text: TextSpan(
                         style: const TextStyle(
@@ -109,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                         style: const TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white, // Белый цвет текста
+                          color: Colors.white,
                         ),
                       ),
                   ),
@@ -120,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                       labelText: 'E-mail',
                       labelStyle: TextStyle(color: Colors.black),
                       filled: true,
-                      fillColor: Colors.white, // Изменено
+                      fillColor: Colors.white,
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -144,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                       labelText: 'Password',
                       labelStyle: TextStyle(color: Colors.black),
                       filled: true,
-                      fillColor: Colors.white, // Изменено
+                      fillColor: Colors.white,
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -167,7 +166,7 @@ class _LoginPageState extends State<LoginPage> {
                         labelText: 'Confirm Password',
                         labelStyle: TextStyle(color: Colors.black),
                         filled: true,
-                        fillColor: Colors.white, // Изменено
+                        fillColor: Colors.white,
                         border: OutlineInputBorder(
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -187,7 +186,6 @@ class _LoginPageState extends State<LoginPage> {
                   ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        // Обработка входа/регистрации
                         if (isLogin) {
                           try {
                             await _authService.signInWithEmailAndPassword(
@@ -195,7 +193,6 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.pushReplacement(context,
                                 MaterialPageRoute(builder: (context) => const MainPage()));
                           } catch (e) {
-                            // Обработка ошибок входа
                             print('Ошибка входа: $e');
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('Ошибка входа: $e')),
@@ -205,13 +202,11 @@ class _LoginPageState extends State<LoginPage> {
                           try {
                             await _authService.registerWithEmailAndPassword(
                                 _emailController.text, _passwordController.text);
-                            // После регистрации отправляем запрос на подтверждение почты
                             await _authService.sendEmailVerification();
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('Регистрация успешна! Проверьте свою почту для подтверждения.')),
                             );
                           } catch (e) {
-                            // Обработка ошибок регистрации
                             print('Ошибка регистрации: $e');
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('Ошибка регистрации: $e')),
@@ -237,14 +232,13 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 16),
                   TextButton(
                     onPressed: () {
-                      // Переход на другой фрейм
                       setState(() {
                         isLogin = !isLogin;
                       });
                     },
                     style: TextButton.styleFrom(
                       textStyle: const TextStyle(
-                        color: Colors.white, // Изменено
+                        color: Colors.white,
                         fontSize: 16,
                       ),
                     ),
@@ -252,7 +246,7 @@ class _LoginPageState extends State<LoginPage> {
                         ? 'Еще нет аккаунта...'
                         : 'Уже есть аккаунт...',
                         style: const TextStyle(
-                          color: Colors.white, // Изменено
+                          color: Colors.white,
                         ),
                     ),
                   ),

@@ -5,11 +5,8 @@ import '../app/app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // debugPaintSizeEnabled = true; // Включить отладку отрисовки
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
 );
   runApp(const MyApp());
 }
-
-
