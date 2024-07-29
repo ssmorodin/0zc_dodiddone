@@ -1,7 +1,11 @@
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+
 
   // Получение текущего пользователя
   User? get currentUser => _auth.currentUser;
@@ -92,5 +96,24 @@ class AuthService {
     return null;
   }
 
-
+  // Обновление аватара пользователя
+  Future<void> updateUserAvatar(File image) async {
+    try {
+      // Получаем ID пользователя
+      final userId = await getUserId();
+      if (userId != null) {
+        // Создаем ссылку на хранилище для аватара
+        final ref = _storage.ref().child('user_avatars').child('$userId.jpg');
+        // Загружаем изображение в хранилище
+        await ref.putFile(image);
+        // Получаем URL загруженного изображения
+        final downloadUrl = await ref.getDownloadURL();
+        // Обновляем URL аватара пользователя в Firebase Authentication
+        await _auth.currentUser!.updatePhotoURL(downloadUrl);
+      }
+    } catch (e) {
+      print('Ошибка при обновлении аватара: $e');
+      rethrow; // Перебросить исключение
+    }
+  }
 }

@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import '../pages/profile_page.dart';
 import '../screens/completed.dart';
 import '../screens/all_tasks.dart';
 import '../screens/for_today.dart';
-import '../screens/profile.dart';
-import '../services/firebase_auth.dart';
 import '../widgets/dialog_widget.dart';
 
 class MainPage extends StatefulWidget {
@@ -23,7 +19,7 @@ class _MainPageState extends State<MainPage> {
     TasksPage(), // Создаем экземпляр TasksPage
     ForTodayPage(), // Создаем экземпляр ForTodayPage
     CompletedPage(), // Создаем экземпляр CompletedPage
-    ProfilePage(), // Создаем экземпляр ProfilePage
+    // ProfilePage(), // Создаем экземпляр ProfilePage
   ];
 
   void _onItemTapped(int index) {
@@ -59,6 +55,23 @@ void _showEditTaskDialog(String taskId, String title, String description, DateTi
     final secondaryColor = Theme.of(context).colorScheme.secondary;
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent, // Прозрачный AppBar
+        elevation: 0, // Убираем тень
+        actions: [
+          IconButton(
+           onPressed: () {
+           Navigator.push(context,
+           MaterialPageRoute(builder: (context) => ProfilePage()));
+          },
+           icon: const Icon(
+             Icons.person_2,
+             color: Colors.white,
+           ) // Icon
+         ), // IconButton
+         ],// IconButton
+      ),
       body: Column(
         children: [
           Expanded(
@@ -85,7 +98,7 @@ void _showEditTaskDialog(String taskId, String title, String description, DateTi
                     // Выполнено
                     _widgetOptions.elementAt(2),
                     // Профиль
-                    const ProfilePage(), // Отображаем profile_page при выборе "Профиль"
+                    // const ProfilePage(), // Отображаем profile_page при выборе "Профиль"
                   ],
                 ),
               ),
@@ -107,10 +120,10 @@ void _showEditTaskDialog(String taskId, String title, String description, DateTi
             icon: Icon(Icons.check_circle),
             label: 'Выполнено',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Профиль',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.person),
+          //   label: 'Профиль',
+          // ),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
