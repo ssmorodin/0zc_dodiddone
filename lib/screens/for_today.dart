@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../widgets/dialog_widget.dart';
 import '../widgets/task_item.dart';
 import '../services/firebase_auth.dart';
 
@@ -55,6 +56,28 @@ class _TasksPageState extends State<ForTodayPage> {
     setState(() {}); // Обновляем состояние, чтобы отобразить полученные данные
   }
 
+  // Функция для показа диалогового окна редактирования задачи
+  void _showEditTaskDialog(String taskId, String title, String description, DateTime deadline) {
+    showDialog(
+      context: context,
+      builder: (context) => DialogWidget(
+        initialTitle: title,
+        initialDescription: description,
+        initialDeadline: deadline,
+        taskId: taskId,
+      ),
+    );
+  }
+
+  // Функция для удаления задачи
+  void _deleteTask(String taskId) {
+    _tasksCollection.doc(taskId).delete().then((_) {
+      // Обновляем список задач после удаления
+      _updateTaskList();
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
@@ -109,7 +132,14 @@ class _TasksPageState extends State<ForTodayPage> {
                     taskId: taskId, // Передаем ID задачи
                     toLeft: () => _markTaskUnCompleted(taskId),
                     toRight: () => _markTaskCompleted(taskId),
-                    );
+                  onEdit: () => _showEditTaskDialog(
+                      taskId,
+                      taskData['title'],
+                      taskData['description'],
+                      (taskData['deadline'] as Timestamp?)?.toDate() ??
+                          DateTime.now()), // Передаем функцию редактирования
+                  onDelete: () => _deleteTask(taskId), // Передаем функцию удаления
+                );
                   },
 
               );
